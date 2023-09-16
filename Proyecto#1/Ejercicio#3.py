@@ -3,6 +3,7 @@ import librosa
 import soundfile as sf
 import matplotlib.pyplot as plt
 import librosa.display
+from scipy.integrate import cumtrapz
 
 # Cargar el archivo de audio
 archivo_audio = 'piano.wav'
@@ -11,8 +12,8 @@ y, sr = librosa.load(archivo_audio)
 # Factor de cambio de tono (por ejemplo, 0.12 para una variación más notoria)
 factor_cambio_tono = 0.12
 
-# Factor de cambio de fase (por ejemplo, 180 grados o pi radianes)
-factor_cambio_fase = np.pi  # Cambiar la fase en 180 grados (pi radianes)
+# Factor de cambio de fase
+factor_cambio_fase = np.pi/2  # Cambiar la fase en 90 grados(pi radianes)
 
 # 1. Cambiar el tono modificando la magnitud y manteniendo la fase original
 # Calcular la transformada de Fourier de la señal de audio original
@@ -36,7 +37,7 @@ magnitud_original = np.abs(D_original)
 fase_original = np.angle(D_original)
 
 # Aplicar la integración compleja para cambiar la fase
-fase_modificada = np.unwrap(fase_original) + factor_cambio_fase
+fase_modificada = cumtrapz(fase_original, initial=0) + factor_cambio_fase
 
 # Reconstruir la señal con el tono y la fase cambiados
 D_modificado = magnitud_original * np.exp(1j * fase_modificada)
@@ -62,24 +63,6 @@ plt.plot(y_tono_fase_modificados)
 plt.title('Señal de Audio Fase Modificada')
 
 plt.tight_layout()
-
-# Calcular y mostrar los espectrogramas
-plt.figure(figsize=(12, 10))
-
-plt.subplot(3, 1, 1)
-librosa.display.specshow(librosa.amplitude_to_db(np.abs(D_original), ref=np.max), y_axis='log', x_axis='time')
-plt.colorbar(format='%+2.0f dB')
-plt.title('Espectrograma - Señal Original')
-
-plt.subplot(3, 1, 2)
-librosa.display.specshow(librosa.amplitude_to_db(np.abs(D_tono_modificado), ref=np.max), y_axis='log', x_axis='time')
-plt.colorbar(format='%+2.0f dB')
-plt.title('Espectrograma - Tono Modificado')
-
-plt.subplot(3, 1, 3)
-librosa.display.specshow(librosa.amplitude_to_db(np.abs(D_modificado), ref=np.max), y_axis='log', x_axis='time')
-plt.colorbar(format='%+2.0f dB')
-plt.title('Espectrograma - Fase Modificada')
 
 plt.tight_layout()
 plt.show()
