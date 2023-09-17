@@ -6,7 +6,7 @@ import librosa.display
 from scipy.integrate import cumtrapz
 
 # Cargar el archivo de audio
-archivo_audio = 'piano.wav'
+archivo_audio = 'escala.wav'
 y, sr = librosa.load(archivo_audio)
 
 # Factor de cambio de tono (por ejemplo, 0.12 para una variación más notoria)
@@ -26,7 +26,7 @@ D_tono_modificado = D_original * factor_cambio_tono
 y_tono_modificado = librosa.istft(D_tono_modificado)
 
 # Guardar la señal con el tono modificado como un nuevo archivo de audio
-nombre_archivo_tono_modificado = 'señal_tono_piano_modificado.wav'
+nombre_archivo_tono_modificado = 'escala_tono_modificado.wav'
 sf.write(nombre_archivo_tono_modificado, y_tono_modificado, sr)
 
 print(f'Se ha guardado la señal con el tono modificado en {nombre_archivo_tono_modificado}')
@@ -44,7 +44,7 @@ D_modificado = magnitud_original * np.exp(1j * fase_modificada)
 y_tono_fase_modificados = librosa.istft(D_modificado)
 
 # Guardar la señal con el tono y la fase cambiados como un nuevo archivo de audio
-nombre_archivo_tono_fase_modificados = 'señal_fase_piano_modificada.wav'
+nombre_archivo_tono_fase_modificados = 'escala_fase_modificada.wav'
 sf.write(nombre_archivo_tono_fase_modificados, y_tono_fase_modificados, sr)
 
 # Visualizar las señales en el dominio del tiempo
