@@ -9,20 +9,19 @@ from scipy.integrate import cumtrapz
 archivo_audio = 'piano.wav'
 y, sr = librosa.load(archivo_audio)
 
-# Factor de cambio de tono (por ejemplo, 0.12 para una variación más notoria)
+# Factor de cambio de tono (con 0.12 le bajaria el volumen a la señal)
 factor_cambio_tono = 0.12
 
 # Factor de cambio de fase
 factor_cambio_fase = np.pi/2  # Cambiar la fase en 90 grados(pi radianes)
 
-# 1. Cambiar el tono modificando la magnitud y manteniendo la fase original
 # Calcular la transformada de Fourier de la señal de audio original
 D_original = librosa.stft(y)
 
 # Cambiar el tono modificando la magnitud y manteniendo la fase original
 D_tono_modificado = D_original * factor_cambio_tono
 
-# Reconstruir la señal con el tono modificado
+# Reconstruir la señal con el tono modificado con la incersa de la transformada de fourier
 y_tono_modificado = librosa.istft(D_tono_modificado)
 
 # Guardar la señal con el tono modificado como un nuevo archivo de audio
@@ -47,7 +46,7 @@ y_tono_fase_modificados = librosa.istft(D_modificado)
 nombre_archivo_tono_fase_modificados = 'señal_fase_piano_modificada.wav'
 sf.write(nombre_archivo_tono_fase_modificados, y_tono_fase_modificados, sr)
 
-# Visualizar las señales en el dominio del tiempo
+#Grafica las señales en el dominio del tiempo
 plt.figure(figsize=(12, 10))
 
 plt.subplot(3, 1, 1)

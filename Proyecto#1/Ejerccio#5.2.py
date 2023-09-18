@@ -19,11 +19,11 @@ y_fase_modificada = y_fase_modificada[:min_length]
 # Sumar las señales originales y modificadas en fase
 y_combinada = y_original + y_fase_modificada
 
-# Guardar la señal combinada como un nuevo archivo de audio
+# Guardar la señal del efecto chorus
 nombre_archivo_combinado = 'efecto_chorus.wav'
 sf.write(nombre_archivo_combinado, y_combinada, sr)
 
-# Crear un eje de tiempo
+# Crea un eje de tiempo
 tiempo = librosa.times_like(y_original)
 
 # Graficar las tres señales en un mismo gráfico
